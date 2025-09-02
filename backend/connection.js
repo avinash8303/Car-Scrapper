@@ -1,6 +1,7 @@
-const mogoose = required('mogoose');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-const url = 'mongodb+srv://tripathiavinash860:1234@cluster0.69rg4nu.mongodb.net/mydb?retryWrites=true&w=majority&appName=Cluster0'
+const url = process.env.DB_URL;
 
 
 //  this is a asyncronous function - retrurns promise objects

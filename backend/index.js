@@ -1,36 +1,25 @@
-const expres = require('express');
+const express = require('express');
 const userRouter = require('./routers/userRouter')
+const adminRouter = require('./routers/adminRouter')
+const vendorRouter = require('./routers/vendorRouter')
+const carRouter = require('./routers/carRouter')
+const cors = require('cors');
 
-const app = expres();
+const app = express();
 
 const port = 5000;
 
 //middlewares
-app.use(expres.json());
-app.use('/user',userRouter);
-
-//router
-app.get('/',(req,res) => {
-    res.send('response from express')
-})
-app.get ('/',(req,res) => {
-   res.send('response from express');
-});
-//add
-app.get ('/add',(req,res) => {
-   res.send('response from add');
-});
-//update
-app.get ('/update',(req,res) => {
-   res.send('response from update');
-});
-//delet
-app.get ('/delete',(req,res) => {
-   res.send('response from delete');
-});
+app.use(cors({
+   origin: ['http://localhost:3000']
+}));
+app.use(express.json());
+app.use('/user', userRouter);
+app.use('/admin', adminRouter);
+app.use('/vendor', vendorRouter);
+app.use('/car', carRouter);
 
 // starting the server
-app.listen(port,() => {
-    console.log('express server has started');
-    
+app.listen(port, () => {
+   console.log('express server has started');
 });
