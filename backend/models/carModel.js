@@ -7,6 +7,7 @@ const mySchema = new Schema({
     regNumber: { type: String, default: 'unknown' },
     year: { type: Number, required: true },
     image: { type: String }, // Cloudinary image URL
+    owner: { type: Schema.Types.ObjectId, ref: 'users', required: true },
     createdAt: { type: Date, default: Date.now }
 });
 

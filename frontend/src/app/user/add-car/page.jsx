@@ -46,10 +46,10 @@ const AddCar = () => {
           method: 'POST',
           body: imageData
         });
-  const cloudinaryData = await cloudinaryRes.json();
-  if (!cloudinaryData.secure_url) throw new Error('Image upload failed');
-  // Log success if image is uploaded
-  console.log('Image successfully uploaded to Cloudinary:', cloudinaryData.secure_url);
+        const cloudinaryData = await cloudinaryRes.json();
+        if (!cloudinaryData.secure_url) throw new Error('Image upload failed');
+        // Log success if image is uploaded
+        console.log('Image successfully uploaded to Cloudinary:', cloudinaryData.secure_url);
 
         // 2. Send car data (with image URL) as JSON to backend
         const carData = {

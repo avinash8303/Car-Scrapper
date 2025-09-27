@@ -3,6 +3,7 @@ const router = express.Router();
 const Model = require('../models/vendorModel');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const verifyToken = require('../middlewares/auth');
 
 router.post('/add', (req, res) => {
     console.log(req.body);
@@ -42,9 +43,33 @@ router.get('/getbyemail/:email', (req, res) => {
         });
 
 });
+router.get('/getbyname/:name', (req, res) => {
+    console.log(req.params.name);
+    Model.find({ name: req.params.name })
+        .then((result) => {
+            res.status(200).json(result);
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).json(result);
+        });
+
+});
 
 router.get('/getbyid/:id', (req, res) => {
     Model.findById(req.params.id)
+        .then((result) => {
+            res.status(200).json(result);
+
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+
+
+        });
+});
+
+router.get('/getvendor', verifyToken, (req, res) => {
+    Model.findById(req.user._id)
         .then((result) => {
             res.status(200).json(result);
 
@@ -92,6 +117,7 @@ router.put('/update/:id', (req, res) => {
 });
 
 router.post('/authenticate', (req, res) => {
+    console.log(req.body);
     Model.findOne(req.body)
         .then((result) => {
 

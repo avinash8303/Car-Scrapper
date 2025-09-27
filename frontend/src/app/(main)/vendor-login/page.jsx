@@ -19,7 +19,7 @@ const VendorLogin = () => {
         .then((result) => {
           console.log(result);
           if (result.data?.token) {
-            localStorage.setItem('token', result.data.token)
+            localStorage.setItem('vendor-token', result.data.token)
           }
           toast.success('Login successful!');
           router.push('/vendor/dashboard');
@@ -41,7 +41,7 @@ const VendorLogin = () => {
             Don't have an account yet?{' '}
             <a
               className="text-blue-600 hover:underline font-medium dark:text-blue-500"
-              href="/signup"
+              href="/vendor-signup"
             >
               Sign up here
             </a>

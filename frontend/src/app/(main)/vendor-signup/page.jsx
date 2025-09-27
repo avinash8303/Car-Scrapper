@@ -31,6 +31,8 @@ const vendorsignup = () => {
   const [passwordHidden, setPasswordHidden] = useState(true);
   const router = useRouter();
 
+  
+
   // formik intialization 
   const SignupForm = useFormik({
     initialValues: {

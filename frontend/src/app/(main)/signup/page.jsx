@@ -6,6 +6,7 @@ import { Ring } from 'ldrs/react';
 import 'ldrs/react/Ring.css';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
@@ -25,6 +26,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Signup = () => {
+  const router = useRouter();
   const [passwordHidden, setPasswordHidden] = useState(true);
 
   const SignupForm = useFormik({
@@ -40,6 +42,7 @@ const Signup = () => {
         .then(() => {
           toast.success('User registered successfully');
           resetForm();
+          router.push('/login');
         })
         .catch(() => {
           toast.error('Error registering user');
@@ -167,34 +170,16 @@ const Signup = () => {
                   onClick={() => setPasswordHidden(!passwordHidden)}
                 >
                   {passwordHidden ? (
-                    <svg
-                      className="w-5 h-5 text-gray-500"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M13.875 18.825A6.978 6.978 0 0012 19.5c-3.313 0-6-2.686-6-6 0-1.125.294-2.175.825-3.075M15.588 8.588A6.978 6.978 0 0015 7.5c0-3.313 2.686-6 6-6 1.125 0 2.175.294 3.075.825M8.25 15.075A6.978 6.978 0 007.5 15c-3.313 0-6 2.686-6 6 0 1.125.294 2.175.825 3.075M18.825 8.25A6.978 6.978 0 0019.5 9c3.313 0 6-2.686 6-6 0-1.125-.294-2.175-.825-3.075"
-                      />
+                    // Eye (show password)
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-gray-500">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12c0 2.25 3.75 7.5 9.75 7.5s9.75-5.25 9.75-7.5S17.25 4.5 12 4.5 2.25 9.75 2.25 12z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                   ) : (
-                    <svg
-                      className="w-5 h-5 text-gray-500"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M13.875 18.825A6.978 6.978 0 0012 19.5c-3.313 0-6-2.686-6-6 0-1.125.294-2.175.825-3.075M15.588 8.588A6.978 6.978 0 0015 7.5c0-3.313 2.686-6 6-6 1.125 0 2.175.294 3.075.825M8.25 15.075A6.978 6.978 0 007.5 15c-3.313 0-6 2.686-6 6 0 1.125.294 2.175.825 3.075M18.825 8.25A6.978 6.978 0 0019.5 9c3.313 0 6-2.686 6-6 0-1.125-.294-2.175-.825-3.075"
-                      />
+                    // Eye-off (hide password)
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-gray-500">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 002.25 12c0 2.25 3.75 7.5 9.75 7.5 2.042 0 3.93-.457 5.57-1.223M6.73 6.73A9.956 9.956 0 0112 4.5c6 0 9.75 5.25 9.75 7.5 0 1.272-.592 2.773-1.57 4.223M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 3l18 18" />
                     </svg>
                   )}
                 </button>
