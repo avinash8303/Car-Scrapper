@@ -32,6 +32,10 @@ const Login = () => {
     }
   })
 
+  const handleGoogleLogin = () => {
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`;
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 dark:from-neutral-800 dark:via-neutral-900 dark:to-black py-10">
       <div className="w-full max-w-md bg-white border border-gray-300 rounded-3xl shadow-2xl dark:bg-neutral-900 dark:border-neutral-700 p-8 sm:p-10">
@@ -50,6 +54,7 @@ const Login = () => {
           </p>
         </div>
         <button
+          onClick={handleGoogleLogin}
           type="button"
           className="w-full py-3 px-4 flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-300 bg-white text-gray-800 shadow-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:ring-neutral-700 transition-transform transform hover:scale-105"
         >
