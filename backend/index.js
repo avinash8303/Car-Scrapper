@@ -1,13 +1,13 @@
-const express = require('express');
-const userRouter = require('./routers/userRouter')
-const adminRouter = require('./routers/adminRouter')
-const vendorRouter = require('./routers/vendorRouter')
-const carRouter = require('./routers/carRouter')
-const scrapRouter = require('./routers/scrapRequestRouter')
-const authRouter = require('./routers/auth')
-const aiRouter = require('./routers/aiRouter');
-const cors = require('cors');
-const connection = require('./connection'); // Import the database connection
+import express from 'express';
+import userRouter from './routers/userRouter.js';
+import adminRouter from './routers/adminRouter.js';
+import vendorRouter from './routers/vendorRouter.js';
+import carRouter from './routers/carRouter.js';
+import scrapRouter from './routers/scrapRequestRouter.js';
+import authRouter from './routers/auth.js';
+import aiRouter from './routers/aiRouter.js';
+import cors from 'cors';
+// import connection from './connection.js'; // Import the database connection
 
 const app = express();
 

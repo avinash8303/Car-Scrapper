@@ -1,9 +1,11 @@
-const express = require('express')
-const router = express.Router();
-const Model = require('../models/vendorModel');
-require('dotenv').config();
-const jwt = require('jsonwebtoken');
-const verifyToken = require('../middlewares/auth');
+import express from 'express';
+import { Router } from 'express';
+import Model from '../models/vendorModel.js';
+import 'dotenv/config';
+import jwt from 'jsonwebtoken';
+import verifyToken from '../middlewares/auth.js';
+
+const router = Router();
 
 router.post('/add', (req, res) => {
     console.log(req.body);
@@ -153,6 +155,4 @@ router.post('/authenticate', (req, res) => {
         });
 });
 
-
-
-module.exports = router;
+export default router;

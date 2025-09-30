@@ -1,9 +1,11 @@
-const express = require('express')
-const router = express.Router();
-const Model = require('../models/userModel');
-require('dotenv').config();
-const jwt = require('jsonwebtoken');
-const verifyToken = require('../middlewares/auth');
+import express from 'express';
+import { Router } from 'express';
+import Model from '../models/userModel.js';
+import 'dotenv/config';
+import jwt from 'jsonwebtoken';
+import authenticate from '../middlewares/auth.js';
+
+const router = Router();
 
 router.post('/add', (req, res) => {
     console.log(req.body);
@@ -32,7 +34,7 @@ router.get('/getall', (req, res) => {
         });
 });
 
-router.get("/getuser", verifyToken, (req, res) => {
+router.get("/getuser", authenticate, (req, res) => {
     console.log(req.user);
 
     Model.findById(req.user._id)
@@ -130,4 +132,4 @@ router.post('/authenticate', (req, res) => {
         });
 });
 
-module.exports = router;
+export default router;
