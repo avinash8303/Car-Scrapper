@@ -3,7 +3,7 @@ import passport from "passport";
 import jwt from "jsonwebtoken";
 
 import * as authController from "../controllers/authController.js";
-import authenticate from "../middleWares/auth.js";
+import authenticate from "../middlewares/auth.js";
 import User from "../models/userModel.js";
 
 import '../config/passport.js';
