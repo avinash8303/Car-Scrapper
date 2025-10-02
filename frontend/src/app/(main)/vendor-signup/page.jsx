@@ -74,13 +74,36 @@ const vendorsignup = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-gray-800 to-gray-900 py-10">
       <div className="w-full max-w-lg bg-white border border-gray-200 rounded-3xl shadow-2xl dark:bg-neutral-900 dark:border-neutral-700 p-8 sm:p-10">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-extrabold text-gray-800 dark:text-white">
+          <h1
+            className="text-4xl font-extrabold bg-gradient-to-r from-[#F97316] via-[#10B981] to-[#1A2E40] bg-clip-text text-transparent animate-gradient"
+            style={{
+              backgroundSize: '200% 200%',
+              animation: 'gradientMove 3s linear infinite'
+            }}
+          >
             Vendor Signup
           </h1>
-          <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400">
+          <style jsx>{`
+            @keyframes gradientMove {
+              0% {
+                background-position: 0% 50%;
+              }
+              50% {
+                background-position: 100% 50%;
+              }
+              100% {
+                background-position: 0% 50%;
+              }
+            }
+            .animate-gradient {
+              background-size: 200% 200%;
+              animation: gradientMove 3s linear infinite;
+            }
+          `}</style>
+          <p className="mt-2 text-sm text-[#10B981]">
             Already have an account?{' '}
             <a
-              className="text-blue-600 hover:underline font-medium dark:text-blue-500"
+              className="text-[#F97316] hover:underline font-medium"
               href="/vendor-login"
             >
               Login here
@@ -108,13 +131,13 @@ const vendorsignup = () => {
             <div className="grid gap-y-4">
               {/* Form Group */}
               <div >
-                <label htmlFor="name" className="block text-sm mb-2 dark:text-white">Name</label>
-                <div className="relative">
+                <label htmlFor="name" className="block text-sm mb-2 dark:text-white font-bold">Name</label>
+                <div className="relative border border-[#4B5563] rounded-lg p-1">
                   <input type="text"
                     id="name"
                     onChange={SignupForm.handleChange}
                     value={SignupForm.values.name}
-                    className="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" aria-describedby="email-error" />
+                    className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" aria-describedby="email-error" />
                   <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
                     <svg className="size-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
                       <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
@@ -129,10 +152,10 @@ const vendorsignup = () => {
                 }
               </div>
               <div >
-                <label htmlFor="email" className="block text-sm mb-2 dark:text-white">Email address</label>
-                <div className="relative">
+                <label htmlFor="email" className="block text-sm mb-2 dark:text-white font-bold">Email address</label>
+                <div className="relative border border-[#4B5563] rounded-lg p-1">
                   <input type="email" id="email" onChange={SignupForm.handleChange}
-                    value={SignupForm.values.email} className="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" aria-describedby="email-error" />
+                    value={SignupForm.values.email} className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" aria-describedby="email-error" />
                   <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
                     <svg className="size-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
                       <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
@@ -150,21 +173,13 @@ const vendorsignup = () => {
 
               {/* Form Group */}
               <div>
-                <label htmlFor="password" className="block text-sm mb-2 dark:text-white">Password</label>
-                <div className="relative">
+                <label htmlFor="password" className="block text-sm mb-2 dark:text-white font-bold">Password</label>
+                <div className="relative border border-[#4B5563] rounded-lg p-1">
                   <input
                     type={passwordHidden ? 'password' : 'text'}
                     id="password"
-                    onChange={SignupForm.handleChange} value={SignupForm.values.password} className="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" aria-describedby="password-error" />
-                  <button
-                    className='text-white'
-                    type='button'
-                    onClick={() => { setPasswordHidden(!passwordHidden) }}>toggle visibilty</button>
-                  <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
-                    <svg className="size-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                    </svg>
-                  </div>
+                    onChange={SignupForm.handleChange} value={SignupForm.values.password} className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" aria-describedby="password-error" />
+                  
                 </div>
                 {
                   (SignupForm.errors.password && SignupForm.touched.password) && (
@@ -177,9 +192,9 @@ const vendorsignup = () => {
 
               {/* Form Group */}
               <div>
-                <label htmlFor="confirm-password" className="block text-sm mb-2 dark:text-white">Confirm Password</label>
-                <div className="relative">
-                  <input type="password" id="confirmPassword" onChange={SignupForm.handleChange} value={SignupForm.values.confirmPassword} className="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" aria-describedby="confirm-password-error" />
+                <label htmlFor="confirm-password" className="block text-sm mb-2 dark:text-white font-bold">Confirm Password</label>
+                <div className="relative border border-[#4B5563] rounded-lg p-1">
+                  <input type="password" id="confirmPassword" onChange={SignupForm.handleChange} value={SignupForm.values.confirmPassword} className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" aria-describedby="confirm-password-error" />
                   <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
                     <svg className="size-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
                       <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />

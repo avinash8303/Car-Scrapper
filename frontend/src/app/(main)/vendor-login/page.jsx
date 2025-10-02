@@ -34,13 +34,36 @@ const VendorLogin = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-800 via-gray-900 to-black py-10">
       <div className="w-full max-w-md bg-white border border-gray-200 rounded-3xl shadow-2xl dark:bg-neutral-900 dark:border-neutral-700 p-8 sm:p-10">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-extrabold text-gray-800 dark:text-white">
+          <h1
+            className="text-4xl font-extrabold bg-gradient-to-r from-[#F97316] via-[#10B981] to-[#1A2E40] bg-clip-text text-transparent animate-gradient"
+            style={{
+              backgroundSize: '200% 200%',
+              animation: 'gradientMove 3s linear infinite'
+            }}
+          >
             Vendor Login
           </h1>
-          <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400">
+          <style jsx>{`
+            @keyframes gradientMove {
+              0% {
+                background-position: 0% 50%;
+              }
+              50% {
+                background-position: 100% 50%;
+              }
+              100% {
+                background-position: 0% 50%;
+              }
+            }
+            .animate-gradient {
+              background-size: 200% 200%;
+              animation: gradientMove 3s linear infinite;
+            }
+          `}</style>
+          <p className="mt-2 text-sm text-[#10B981]">
             Don't have an account yet?{' '}
             <a
-              className="text-blue-600 hover:underline font-medium dark:text-blue-500"
+              className="text-[#F97316] hover:underline font-medium"
               href="/vendor-signup"
             >
               Sign up here

@@ -3,12 +3,14 @@
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 
 const Login = () => {
 
   const router = useRouter();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const loginForm = useFormik({
     initialValues: {
@@ -37,16 +39,39 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 dark:from-neutral-800 dark:via-neutral-900 dark:to-black py-10">
-      <div className="w-full max-w-md bg-white border border-gray-300 rounded-3xl shadow-2xl dark:bg-neutral-900 dark:border-neutral-700 p-8 sm:p-10">
+    <div className="min-h-screen flex items-center justify-center bg-[#F9FAFB] py-10">
+      <div className="w-full max-w-md bg-white border border-[#4B5563] rounded-3xl shadow-xl p-8 sm:p-10">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 dark:text-white">
+          <h1
+            className="text-4xl font-bold bg-gradient-to-r from-[#F97316] via-[#10B981] to-[#1A2E40] bg-clip-text text-transparent animate-gradient"
+            style={{
+              backgroundSize: '200% 200%',
+              animation: 'gradientMove 3s linear infinite'
+            }}
+          >
             Login
           </h1>
-          <p className="mt-3 text-sm text-gray-600 dark:text-neutral-400">
+          <style jsx>{`
+            @keyframes gradientMove {
+              0% {
+                background-position: 0% 50%;
+              }
+              50% {
+                background-position: 100% 50%;
+              }
+              100% {
+                background-position: 0% 50%;
+              }
+            }
+            .animate-gradient {
+              background-size: 200% 200%;
+              animation: gradientMove 3s linear infinite;
+            }
+          `}</style>
+          <p className="mt-3 text-sm text-[#10B981]">
             Don't have an account yet?{' '}
             <a
-              className="text-blue-600 hover:underline font-medium dark:text-blue-400"
+              className="text-[#F97316] hover:underline font-medium"
               href="/signup"
             >
               Sign up
@@ -56,7 +81,7 @@ const Login = () => {
         <button
           onClick={handleGoogleLogin}
           type="button"
-          className="w-full py-3 px-4 flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-300 bg-white text-gray-800 shadow-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:ring-neutral-700 transition-transform transform hover:scale-105"
+          className="w-full py-3 px-4 flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-[#4B5563] bg-white text-[#1A2E40] shadow hover:bg-[#E5E7EB] focus:outline-none focus:ring-2 focus:ring-[#F97316] transition-transform transform hover:scale-105"
         >
           <svg
             className="w-5 h-5"
@@ -84,7 +109,7 @@ const Login = () => {
           </svg>
           Login with Google
         </button>
-        <div className="py-6 flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-300 before:me-6 after:flex-1 after:border-t after:border-gray-300 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600">
+  <div className="py-6 flex items-center text-xs text-[#6B7280] uppercase before:flex-1 before:border-t before:border-[#4B5563] before:me-6 after:flex-1 after:border-t after:border-[#4B5563] after:ms-6">
           Or
         </div>
         <form onSubmit={loginForm.handleSubmit}>
@@ -100,7 +125,7 @@ const Login = () => {
                 type="email"
                 id="email"
                 name="email"
-                className="py-3 px-4 block w-full border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-400 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-700 transition-transform transform focus:scale-105"
+                className="py-3 px-4 block w-full bg-white border border-[#4B5563] rounded-lg text-sm text-[#6B7280] shadow-sm focus:border-[#F97316] focus:ring-2 focus:ring-[#F97316] focus:outline-none"
                 required
                 placeholder="you@example.com"
                 value={loginForm.values.email || ''}
@@ -122,31 +147,42 @@ const Login = () => {
                   Forgot password?
                 </a>
               </div>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="py-3 px-4 block w-full border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-400 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-700 transition-transform transform focus:scale-105"
-                required
-                placeholder="••••••••"
-                value={loginForm.values.password || ''}
-                onChange={loginForm.handleChange}
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  className="py-3 px-4 block w-full bg-white border border-[#4B5563] rounded-lg text-sm text-[#6B7280] shadow-sm focus:border-[#F97316] focus:ring-2 focus:ring-[#F97316] focus:outline-none"
+                  required
+                  placeholder="••••••••"
+                  value={loginForm.values.password || ''}
+                  onChange={loginForm.handleChange}
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#F97316] text-sm focus:outline-none"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  tabIndex={-1}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
             </div>
             <div className="flex items-center">
               <input
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                className="shrink-0 mt-0.5 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-400 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                className="shrink-0 mt-0.5 border-[#4B5563] rounded-sm text-[#F97316] focus:ring-[#F97316]"
               />
-              <label htmlFor="remember-me" className="ms-2 text-sm dark:text-white">
+              <label htmlFor="remember-me" className="ms-2 text-sm text-[#111827]">
                 Remember me
               </label>
             </div>
             <button
               type="submit"
-              className="w-full py-3 px-4 flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-neutral-700 transition-transform transform hover:scale-105"
+              className="w-full py-3 px-4 flex justify-center items-center gap-x-2 text-base font-semibold rounded-lg border border-transparent bg-[#F97316] text-white shadow hover:bg-[#EA580C] focus:outline-none focus:ring-2 focus:ring-[#F97316] transition-transform transform hover:scale-105"
             >
               Login
             </button>

@@ -52,25 +52,48 @@ const Signup = () => {
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-800 via-gray-900 to-black py-10">
-      <div className="w-full max-w-lg bg-white border border-gray-200 rounded-3xl shadow-2xl dark:bg-neutral-900 dark:border-neutral-700 p-8 sm:p-10">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-extrabold text-gray-800 dark:text-white">
-            Signup
-          </h1>
-          <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400">
-            Already have an account?{' '}
-            <a
-              className="text-blue-600 hover:underline font-medium dark:text-blue-500"
-              href="/login"
-            >
-              Sign in here
-            </a>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="w-full py-3 px-4 flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-300 bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gradient-to-r dark:from-gray-700 dark:to-gray-800 dark:border-neutral-700 dark:hover:shadow-xl transition-transform transform hover:scale-105"
+      <div className="min-h-screen flex items-center justify-center bg-[#F9FAFB] py-10">
+        <div className="w-full max-w-lg bg-[#E5E7EB] border border-[#4B5563] rounded-3xl shadow-xl p-8 sm:p-10">
+          <div className="text-center mb-8">
+              <h1
+                className="text-4xl font-extrabold bg-gradient-to-r from-[#F97316] via-[#10B981] to-[#1A2E40] bg-clip-text text-transparent animate-gradient"
+                style={{
+                  backgroundSize: '200% 200%',
+                  animation: 'gradientMove 3s linear infinite'
+                }}
+              >
+                Signup
+              </h1>
+              <style jsx>{`
+                @keyframes gradientMove {
+                  0% {
+                    background-position: 0% 50%;
+                  }
+                  50% {
+                    background-position: 100% 50%;
+                  }
+                  100% {
+                    background-position: 0% 50%;
+                  }
+                }
+                .animate-gradient {
+                  background-size: 200% 200%;
+                  animation: gradientMove 3s linear infinite;
+                }
+              `}</style>
+              <p className="mt-2 text-sm text-[#10B981]">
+                Already have an account?{' '}
+                <a
+                  className="text-[#F97316] hover:underline font-medium"
+                  href="/login"
+                >
+                  Sign in here
+                </a>
+              </p>
+            </div>
+          <button
+            type="button"
+            className="w-full py-3 px-4 flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-[#4B5563] bg-white text-[#1A2E40] shadow hover:bg-[#E5E7EB] focus:outline-none focus:ring-2 focus:ring-[#F97316] transition-transform transform hover:scale-105"
         >
           <svg
             className="w-5 h-5"
@@ -98,9 +121,9 @@ const Signup = () => {
           </svg>
           Sign up with Google
         </button>
-        <div className="py-6 flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-300 before:me-6 after:flex-1 after:border-t after:border-gray-300 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600">
-          Or
-        </div>
+          <div className="py-6 flex items-center text-xs text-[#6B7280] uppercase before:flex-1 before:border-t before:border-[#4B5563] before:me-6 after:flex-1 after:border-t after:border-[#4B5563] after:ms-6">
+            Or
+          </div>
         <form onSubmit={SignupForm.handleSubmit}>
           <div className="grid gap-y-6">
             <div>
@@ -116,7 +139,7 @@ const Signup = () => {
                 name="name"
                 onChange={SignupForm.handleChange}
                 value={SignupForm.values.name}
-                className="py-3 px-4 block w-full border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-400 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-700"
+                                  className="py-3 px-4 block w-full bg-white border border-[#4B5563] rounded-lg text-sm text-[#6B7280] shadow-sm focus:border-[#F97316] focus:ring-2 focus:ring-[#F97316] focus:outline-none"
                 placeholder="John Doe"
               />
               {SignupForm.errors.name && SignupForm.touched.name && (
@@ -138,7 +161,7 @@ const Signup = () => {
                 name="email"
                 onChange={SignupForm.handleChange}
                 value={SignupForm.values.email}
-                className="py-3 px-4 block w-full border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-400 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-700"
+                                  className="py-3 px-4 block w-full bg-white border border-[#4B5563] rounded-lg text-sm text-[#6B7280] shadow-sm focus:border-[#F97316] focus:ring-2 focus:ring-[#F97316] focus:outline-none"
                 placeholder="you@example.com"
               />
               {SignupForm.errors.email && SignupForm.touched.email && (
@@ -161,7 +184,7 @@ const Signup = () => {
                   name="password"
                   onChange={SignupForm.handleChange}
                   value={SignupForm.values.password}
-                  className="py-3 px-4 block w-full border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-400 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-700"
+                                  className="py-3 px-4 block w-full bg-white border border-[#4B5563] rounded-lg text-sm text-[#6B7280] shadow-sm focus:border-[#F97316] focus:ring-2 focus:ring-[#F97316] focus:outline-none"
                   placeholder="••••••••"
                 />
                 <button
@@ -203,12 +226,12 @@ const Signup = () => {
                 name="confirmPassword"
                 onChange={SignupForm.handleChange}
                 value={SignupForm.values.confirmPassword}
-                className="py-3 px-4 block w-full border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-400 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-700"
+                                  className="py-3 px-4 block w-full bg-white border border-[#4B5563] rounded-lg text-sm text-[#6B7280] shadow-sm focus:border-[#F97316] focus:ring-2 focus:ring-[#F97316] focus:outline-none"
                 placeholder="••••••••"
               />
               {SignupForm.errors.confirmPassword &&
                 SignupForm.touched.confirmPassword && (
-                  <p className="text-xs text-red-600 mt-2">
+                                  <p className="text-xs text-[#F97316] mt-2">
                     {SignupForm.errors.confirmPassword}
                   </p>
                 )}
@@ -218,15 +241,15 @@ const Signup = () => {
                 id="terms"
                 name="terms"
                 type="checkbox"
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                  className="h-4 w-4 text-[#F97316] focus:ring-[#F97316] border-[#4B5563] rounded"
               />
               <label
                 htmlFor="terms"
-                className="ml-2 block text-sm text-gray-900 dark:text-white"
+                                  className="ml-2 block text-sm text-[#111827]"
               >
                 I accept the{' '}
                 <a
-                  className="text-blue-600 hover:underline"
+                                      className="text-[#F97316] hover:underline"
                   href="#"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -235,24 +258,12 @@ const Signup = () => {
                 </a>
               </label>
             </div>
-            <button
-              type="submit"
-              className="w-full py-3 px-4 text-sm font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:bg-gradient-to-l hover:from-purple-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            >
-              {
-                SignupForm.isSubmitting ? (
-                  <Ring
-                    size="30"
-                    stroke="5"
-                    bgOpacity="0"
-                    speed="2"
-                    color="black"
-                  />
-                ) : (
-                  'Sign up'
-                )
-              }
-            </button>
+              <button
+                type="submit"
+                className="w-full py-3 px-4 flex justify-center items-center gap-x-2 text-base font-semibold rounded-lg border border-transparent bg-[#F97316] text-white shadow hover:bg-[#EA580C] focus:outline-none focus:ring-2 focus:ring-[#F97316] transition-transform transform hover:scale-105"
+              >
+                Signup
+              </button>
           </div>
         </form>
       </div>

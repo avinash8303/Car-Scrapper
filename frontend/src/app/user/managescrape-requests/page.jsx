@@ -15,9 +15,9 @@ const ManageScrapRequests = () => {
         setLoading(true);
         try {
             const res = await axios.get(`http://localhost:5000/scrap-request/user`, {
-              headers: {
-                
-              }
+                headers: {
+                    Authorization: `Bearer ${currentUser?.token}`
+                }
             });
             // Assuming the backend populates car and user (vendor) details
             setRequests(res.data);
@@ -105,11 +105,10 @@ const ManageScrapRequests = () => {
                                         </button>
                                     </>
                                 ) : (
-                                    <span className={`px-4 py-1.5 rounded-full text-sm font-semibold ${
-                                        req.status === 'Approved'
+                                    <span className={`px-4 py-1.5 rounded-full text-sm font-semibold ${req.status === 'Approved'
                                             ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300'
                                             : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300'
-                                    }`}>
+                                        }`}>
                                         {req.status}
                                     </span>
                                 )}

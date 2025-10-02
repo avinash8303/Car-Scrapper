@@ -32,44 +32,36 @@ const Dashboard = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem('user'));
-    setCurrentUser(user);
+    const fetchDashboard = async () => {
+      setLoading(true);
+      const user = JSON.parse(sessionStorage.getItem('user'));
+      setCurrentUser(user);
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+      try {
+        const [carsRes, requestsRes] = await Promise.all([
+          axios.get(`http://localhost:5000/car/user/${user._id}`),
+          axios.get(`http://localhost:5000/scrap-request/user/${user._id}`)
+        ]);
+        const userCars = carsRes.data;
+        const userRequests = requestsRes.data;
+        setStats({
+          myCars: userCars.length,
+          totalRequests: userRequests.length,
+          approvedRequests: userRequests.filter(req => req.status === 'Approved').length,
+          pendingRequests: userRequests.filter(req => req.status === 'Pending').length,
+        });
+        setRecentCars(userCars.slice(0, 5));
+      } catch (error) {
+        toast.error("Failed to fetch dashboard data");
+        console.error("Dashboard fetch error:", error);
+      }
+      setLoading(false);
+    };
+    fetchDashboard();
   }, []);
-
-  const fetchData = async () => {
-    if (!currentUser) return;
-    
-    setLoading(true);
-    try {
-      const [carsRes, requestsRes] = await Promise.all([
-        axios.get(`http://localhost:5000/car/user/${currentUser._id}`),
-        axios.get(`http://localhost:5000/scrap-request/user/${currentUser._id}`)
-      ]);
-
-      const userCars = carsRes.data;
-      const userRequests = requestsRes.data;
-
-      setStats({
-        myCars: userCars.length,
-        totalRequests: userRequests.length,
-        approvedRequests: userRequests.filter(req => req.status === 'Approved').length,
-        pendingRequests: userRequests.filter(req => req.status === 'Pending').length,
-      });
-
-      setRecentCars(userCars.slice(0, 5));
-
-    } catch (error) {
-      toast.error("Failed to fetch dashboard data");
-      console.error("Dashboard fetch error:", error);
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    if (currentUser) {
-      fetchData();
-    }
-  }, [currentUser]);
 
   if (loading) {
     return (
