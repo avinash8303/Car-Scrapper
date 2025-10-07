@@ -20,6 +20,14 @@ const Layout = ({ children }) => {
                             <FaCar className="text-blue-500" />
                             Add Car
                         </Link>
+                        <Link href="/user/manage-cars" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 dark:text-white hover:bg-blue-100 dark:hover:bg-neutral-800 font-medium transition-colors">
+                            <FaCar className="text-blue-500" />
+                            Manage Car
+                        </Link>
+                        <Link href="/user/managescrape-requests" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 dark:text-white hover:bg-blue-100 dark:hover:bg-neutral-800 font-medium transition-colors">
+                            <FaCar className="text-blue-500" />
+                            Manage Scrap Requests
+                        </Link>
                         <Link href="/user/price-calculater" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 dark:text-white hover:bg-blue-100 dark:hover:bg-neutral-800 font-medium transition-colors">
                             <FaCalculator className="text-blue-500" />
                             price-calculater

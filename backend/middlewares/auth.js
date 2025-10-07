@@ -4,9 +4,9 @@ dotenv.config();
 
 const authenticate = (req, res, next) => {
     const token = req.headers['authorization']?.split(' ')[1];
-    console.log('Received token:', token);
+    // console.log('Received token:', token);
     if (!token) {
-        console.log('No token provided in request headers.');
+        // console.log('No token provided in request headers.');
         return res.status(401).json({ message: "No token provided" });
     }
 
@@ -16,7 +16,7 @@ const authenticate = (req, res, next) => {
                 console.log('JWT verification error:', err);
                 return res.status(403).json({ message: "Invalid token" });
             }
-            console.log('Decoded JWT payload:', data);
+            // console.log('Decoded JWT payload:', data);
             req.user = data;
             next();
         })

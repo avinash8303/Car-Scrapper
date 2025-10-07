@@ -164,6 +164,10 @@ const Dashboard = () => {
                 <FaTasks className="text-green-600 dark:text-green-400" />
                 <span className="font-semibold text-green-800 dark:text-green-200">Manage Car Listings</span>
               </Link>
+              <Link href="/vendor/scrap-requests" className="flex items-center gap-3 p-4 rounded-lg bg-green-50 hover:bg-green-100 dark:bg-green-900/50 dark:hover:bg-green-900 transition">
+                <FaTasks className="text-green-600 dark:text-green-400" />
+                <span className="font-semibold text-green-800 dark:text-green-200">Manage Scrap Requests</span>
+              </Link>
               
             </div>
           </motion.div>

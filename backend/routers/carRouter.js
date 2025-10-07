@@ -8,7 +8,7 @@ const { default: authenticate } = require('../middlewares/auth');
 // Add car: expects all data including image URL in JSON body
 router.post('/add', authenticate, async (req, res) => {
     console.log(req.user);
-    
+
     req.body.owner = req.user._id;
     console.log(req.body);
     try {
@@ -52,6 +52,16 @@ router.get('/getbyid/:id', (req, res) => {
 
 router.get('/getbyregnum/:regNumber', (req, res) => {
     Model.find({ regNumber: req.params.regNumber })
+        .then((result) => {
+            res.status(200).json(result);
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).json(result);
+        });
+});
+
+router.get('/user', authenticate, (req, res) => {
+    Model.find({ owner: req.user._id })
         .then((result) => {
             res.status(200).json(result);
         }).catch((err) => {

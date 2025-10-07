@@ -3,9 +3,13 @@ const router = express.Router();
 const ScrapRequest = require('../models/scrapRequestModel');
 const User = require('../models/userModel');
 const Car = require('../models/carModel');
-router.post('/', async (req, res) => {
+const { default: authenticate } = require('../middlewares/auth');
+
+router.post('/', authenticate, async (req, res) => {
     try {
-        const { user, car, reason } = req.body;
+        console.log(req.body);
+        const user = req.user;
+        const { car, reason } = req.body;
 
         if (!user || !car || !reason) {
             return res.status(400).json({ message: 'User, car, and reason are required.' });
@@ -22,7 +26,7 @@ router.post('/', async (req, res) => {
         const newRequest = new ScrapRequest({
             user,
             car,
-            
+            reason
         });
 
         const savedRequest = await newRequest.save();
@@ -47,10 +51,9 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/user/:userId', async (req, res) => {
+router.get('/user', authenticate, async (req, res) => {
     try {
-        const { userId } = req.params;
-        const requests = await ScrapRequest.find({ user: userId })
+        const requests = await ScrapRequest.find({ user: req.user._id })
             .populate('car', 'brand model year image');
 
         if (!requests) {
@@ -97,6 +100,41 @@ router.put('/:id', async (req, res) => {
         res.status(500).json({ message: 'Server error while updating scrap request.' });
     }
 });
+
+router.put('/:id', authenticate, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, notes } = req.body;
+
+    const allowedStatuses = ['Pending', 'Approved', 'Rejected'];
+    if (status && !allowedStatuses.includes(status)) {
+      return res.status(400).json({ message: 'Invalid status value.' });
+    }
+
+    const updateData = { ...req.body };
+    if (status) updateData.processedAt = new Date();
+
+    // ✅ store vendor who approved it
+    if (status === 'Approved') {
+      updateData.approvedBy = req.user._id;
+    }
+
+    const updatedRequest = await ScrapRequest.findByIdAndUpdate(id, updateData, { new: true })
+      .populate('user', 'name email')
+      .populate('car', 'brand model year image')
+      .populate('approvedBy', 'name email'); // 👈 include vendor info
+
+    if (!updatedRequest) {
+      return res.status(404).json({ message: 'Scrap request not found.' });
+    }
+
+    res.status(200).json(updatedRequest);
+  } catch (error) {
+    console.error('Error updating scrap request:', error);
+    res.status(500).json({ message: 'Server error while updating scrap request.' });
+  }
+});
+
 
 router.delete('/:id', async (req, res) => {
     try {
