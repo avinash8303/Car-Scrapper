@@ -154,10 +154,10 @@ const Dashboard = () => {
                 <FaCalculator className="text-green-600 dark:text-green-400" />
                 <span className="font-semibold text-green-800 dark:text-green-200">Calculate Scrap Value</span>
               </Link>
-              <Link href="/user/managescrape-requests" className="flex items-center gap-3 p-4 rounded-lg bg-yellow-50 hover:bg-yellow-100 dark:bg-yellow-900/50 dark:hover:bg-yellow-900 transition">
+              {/* <Link href="/user/managescrape-requests" className="flex items-center gap-3 p-4 rounded-lg bg-yellow-50 hover:bg-yellow-100 dark:bg-yellow-900/50 dark:hover:bg-yellow-900 transition">
                 <FaWrench className="text-yellow-600 dark:text-yellow-400" />
                 <span className="font-semibold text-yellow-800 dark:text-yellow-200">Manage Scrap Requests</span>
-              </Link>
+              </Link> */}
               <Link href="/user/profile" className="flex items-center gap-3 p-4 rounded-lg bg-purple-50 hover:bg-purple-100 dark:bg-purple-900/50 dark:hover:bg-purple-900 transition">
                 <FaUserCircle className="text-purple-600 dark:text-purple-400" />
                 <span className="font-semibold text-purple-800 dark:text-purple-200">View Profile</span>

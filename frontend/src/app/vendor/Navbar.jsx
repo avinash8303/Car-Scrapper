@@ -3,10 +3,10 @@ import React from 'react'
 
 const Navbar = () => {
     return (
-        <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-3 dark:bg-neutral-800">
+        <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-[#1a2e40] text-white text-sm py-3 dark:bg-neutral-800">
             <nav className="max-w-[85rem] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between">
                 <a
-                    className="flex-none font-semibold text-xl text-black focus:outline-hidden focus:opacity-80 dark:text-white"
+                    className="flex-none font-semibold text-xl  focus:outline-hidden focus:opacity-80 dark:text-white"
                     href="/"
                     aria-label="Brand"
                 >
@@ -14,25 +14,25 @@ const Navbar = () => {
                 </a>
                 <div className="flex flex-row items-center gap-5 mt-5 sm:justify-end sm:mt-0 sm:ps-5">
                     <Link
-                        className="font-medium text-gray-600 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+                        className="font-medium  hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
                         href="/"
                     >
                         Home
                     </Link>
                     <Link
-                        className="font-medium text-gray-600 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+                        className="font-medium  hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
                         href="/vendor/dashboard"
                     >
                         Vendor Dashboard 
                     </Link>
                     <a
-                        className="font-medium text-gray-600 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+                        className="font-medium  hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
                         href="/contact"
                     >
                         Contact Us
                     </a>
                     <a
-                        className="font-medium text-gray-600 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+                        className="font-medium  hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
                         href="/login"
                     >
                         Login
@@ -40,7 +40,7 @@ const Navbar = () => {
                     {/* Vendor Dropdown Section */}
                     <div className="relative group">
                         <button
-                            className="font-medium text-gray-600 hover:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 px-3 py-2 focus:outline-none flex items-center gap-1"
+                            className="font-medium  hover:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 px-3 py-2 focus:outline-none flex items-center gap-1"
                         >
                             Vendor
                             <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>

@@ -56,7 +56,7 @@ const Dashboard = () => {
       });
 
       // Set recent requests (e.g., latest 5)
-      setRecentRequests(requests.slice(0, 5));
+      setRecentRequests(cars);
 
     } catch (error) {
       toast.error("Failed to fetch dashboard data.");
@@ -133,8 +133,8 @@ const Dashboard = () => {
                   <tbody>
                     {recentRequests.map(req => (
                       <tr key={req._id} className="border-b dark:border-neutral-700 last:border-none">
-                        <td className="py-3 font-medium text-gray-700 dark:text-neutral-300">{req.car?.model || 'N/A'}</td>
-                        <td className="py-3 text-gray-600 dark:text-neutral-300">{req.user?.name || 'N/A'}</td>
+                        <td className="py-3 font-medium text-gray-700 dark:text-neutral-300">{req.brand || 'N/A'} {req.model || 'N/A'}</td>
+                        <td className="py-3 text-gray-600 dark:text-neutral-300">{req.owner?.name || 'N/A'}</td>
                         <td className="py-3">
                           <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusChip(req.status)}`}>
                             {req.status}
@@ -159,18 +159,12 @@ const Dashboard = () => {
           >
             <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">Quick Actions</h2>
             <div className="flex flex-col gap-4">
-              <Link href="/vendor/add-car" className="flex items-center gap-3 p-4 rounded-lg bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/50 dark:hover:bg-blue-900 transition">
-                <FaPlus className="text-blue-600 dark:text-blue-400" />
-                <span className="font-semibold text-blue-800 dark:text-blue-200">Add a New Car</span>
-              </Link>
+              
               <Link href="/vendor/list-cars" className="flex items-center gap-3 p-4 rounded-lg bg-green-50 hover:bg-green-100 dark:bg-green-900/50 dark:hover:bg-green-900 transition">
                 <FaTasks className="text-green-600 dark:text-green-400" />
                 <span className="font-semibold text-green-800 dark:text-green-200">Manage Car Listings</span>
               </Link>
-              <Link href="/vendor/scrap-requests" className="flex items-center gap-3 p-4 rounded-lg bg-yellow-50 hover:bg-yellow-100 dark:bg-yellow-900/50 dark:hover:bg-yellow-900 transition">
-                <FaClipboardList className="text-yellow-600 dark:text-yellow-400" />
-                <span className="font-semibold text-yellow-800 dark:text-yellow-200">View All Scrap Requests</span>
-              </Link>
+              
             </div>
           </motion.div>
         </div>
