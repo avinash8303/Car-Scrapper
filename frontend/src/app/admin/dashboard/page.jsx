@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import { FaCar, FaUsers, FaTools, FaCheckCircle } from 'react-icons/fa';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 const StatCard = ({ title, value, icon, color }) => (
   <motion.div
@@ -109,15 +110,12 @@ const AdminDashboard = () => {
         >
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
           <div className="space-y-3">
-            <button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition-colors">
+            <Link href={'/admin/manage-cars'} className="w-full block bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition-colors">
               View All Cars
-            </button>
-            <button className="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition-colors">
+            </Link>
+            <Link href={'/admin/manage-user'} className="w-full block bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition-colors">
               Manage Users
-            </button>
-            <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-lg transition-colors">
-              View Scrap Requests
-            </button>
+            </Link>
           </div>
         </motion.div>
       </div>

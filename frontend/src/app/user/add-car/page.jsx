@@ -60,7 +60,11 @@ const AddCar = () => {
           year: values.year,
           image: cloudinaryData.secure_url
         };
-        await axios.post('http://localhost:5000/car/add', carData);
+        await axios.post('http://localhost:5000/car/add', carData, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem('token')}` // Or however you manage auth
+          }
+        });
         toast.success('Car added successfully');
         resetForm();
       } catch (err) {

@@ -24,9 +24,15 @@ const Login = () => {
           console.log(result);
           if (result.data?.token) {
             localStorage.setItem('token', result.data.token)
+            localStorage.setItem('user', JSON.stringify(result.data))
           }
           toast.success('Login successful!');
-          router.push('/user/profile')
+          if (result.data.role === 'admin') {
+            router.push('/admin/dashboard')
+            return;
+          } else {
+            router.push('/user/profile')
+          }
         }).catch((err) => {
           console.log(err);
           toast.error('Login failed! Please check your credentials.');
@@ -109,7 +115,7 @@ const Login = () => {
           </svg>
           Login with Google
         </button>
-  <div className="py-6 flex items-center text-xs text-[#6B7280] uppercase before:flex-1 before:border-t before:border-[#4B5563] before:me-6 after:flex-1 after:border-t after:border-[#4B5563] after:ms-6">
+        <div className="py-6 flex items-center text-xs text-[#6B7280] uppercase before:flex-1 before:border-t before:border-[#4B5563] before:me-6 after:flex-1 after:border-t after:border-[#4B5563] after:ms-6">
           Or
         </div>
         <form onSubmit={loginForm.handleSubmit}>

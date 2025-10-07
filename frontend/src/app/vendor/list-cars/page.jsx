@@ -159,7 +159,7 @@ const ListCars = () => {
                                         <div className="flex gap-3">
                                             <button onClick={() => setEditCar(car)} className="text-blue-500 hover:text-blue-700" title="Edit"><FaEdit size={18} /></button>
                                             <button onClick={() => handleDelete(car._id)} className="text-red-500 hover:text-red-700" title="Delete"><FaTrash size={18} /></button>
-                                            <button onClick={() => handleScrapRequest(car._id)} className="text-yellow-500 hover:text-yellow-700" title="Request Scrap"><FaWrench size={18} /></button>
+                                            {/* <button onClick={() => handleScrapRequest(car._id)} className="text-yellow-500 hover:text-yellow-700" title="Request Scrap"><FaWrench size={18} /></button> */}
                                         </div>
                                     </td>
                                 </motion.tr>

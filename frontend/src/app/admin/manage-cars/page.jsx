@@ -57,7 +57,7 @@ const ManageUser = () => {
                   <td className='p-2 border border-gray-300'>{car.chassisNumber}</td>
                   <td className='p-2 border border-gray-300'>{car.createdAt ? new Date(car.createdAt).toLocaleDateString() : ''}</td>
                   <td className='p-2 border border-gray-300 flex gap-2'>
-                    <button 
+                    <button
                       onClick={() => deleteCar(car._id)}
                       className='bg-red-500 text-white px-3 py-1 rounded'>
                       <IconTrash />

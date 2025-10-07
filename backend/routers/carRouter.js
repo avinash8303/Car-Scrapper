@@ -4,11 +4,15 @@ const router = express.Router();
 const Model = require('../models/carModel');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const { default: authenticate } = require('../middlewares/auth');
 // Add car: expects all data including image URL in JSON body
-router.post('/add', async (req, res) => {
+router.post('/add', authenticate, async (req, res) => {
+    console.log(req.user);
+    
+    req.body.owner = req.user._id;
     console.log(req.body);
     try {
-        const { brand, model, chassisNumber, regNumber, year, image } = req.body;
+        const { brand, model, chassisNumber, regNumber, year, image, owner } = req.body;
         const car = new Model({
             brand,
             model,
@@ -16,6 +20,7 @@ router.post('/add', async (req, res) => {
             regNumber: regNumber || 'unknown',
             year,
             image,
+            owner
         });
         const result = await car.save();
         res.status(200).json(result);
@@ -26,7 +31,7 @@ router.post('/add', async (req, res) => {
 });
 
 router.get('/getall', (req, res) => {
-    Model.find()
+    Model.find().populate('owner')
         .then((result) => {
             res.status(200).json(result)
         }).catch((err) => {

@@ -50,7 +50,7 @@ const Home = () => {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 drop-shadow-2xl tracking-tight text-white">
               The Smartest Way to Find Your Next Car
             </h1>
-            <p className="text-lg md:text-xl max-w-2xl mb-8 drop-shadow-lg text-[#10B981]">
+            <p className="text-lg md:text-xl max-w-2xl mb-8 drop-shadow-lg text-white">
               ScrapHub provides powerful tools to find, compare, and manage vehicle data instantly.
             </p>
             <form
