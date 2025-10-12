@@ -74,7 +74,7 @@ const Home = () => {
             loop
             muted
             playsInline
-            className="absolute inset-0 w-full h-full object-cover brightness-90 scale-105"
+            className="absolute inset-0 w-full h-full object-cover brightness-90 scale-110"
           >
             <source src="/hero-bg.mp4" type="video/mp4" />
             Your browser does not support the video tag.
