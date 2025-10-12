@@ -1,248 +1,155 @@
 'use client';
-import { IconLoader3, icons } from '@tabler/icons-react';
-import { useFormik } from 'formik'
-import React, { useState } from 'react'
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Ring } from 'ldrs/react'
-import 'ldrs/react/Ring.css'
+import React, { useState } from 'react';
+import { Ring } from 'ldrs/react';
+import 'ldrs/react/Ring.css';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-
-// Default values shown
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const SignupSchema = Yup.object().shape({
-
-  name: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Kya message cahiye??'),
-  email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string().required('password is required')
+  name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Name is required'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
+  password: Yup.string()
+    .required('Password is required')
     .matches(/[a-z]/, 'Must contain a lowercase letter')
-    .matches(/[A-Z]/, 'Must contain a uppercase letter')
-    .matches(/[0-9]/, 'Must contain a Number')
-    .matches(/[\w]/, 'Must contain a Special Character'),
-  confirmPassword: Yup.string().required('Confirm Password is required')
-    .oneOf([Yup.ref('password'), null], 'password must match')
+    .matches(/[A-Z]/, 'Must contain an uppercase letter')
+    .matches(/[0-9]/, 'Must contain a number')
+    .matches(/[\W]/, 'Must contain a special character'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .required('Confirm Password is required')
 });
 
-const vendorsignup = () => {
+const VendorSignup = () => {
   const [passwordHidden, setPasswordHidden] = useState(true);
   const router = useRouter();
 
-  
-
-  // formik intialization 
-  const SignupForm = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: ''
-    },
+  const formik = useFormik({
+    initialValues: { name: '', email: '', password: '', confirmPassword: '' },
+    validationSchema: SignupSchema,
     onSubmit: (values, { resetForm, setSubmitting }) => {
-      console.log(values);
-
-      //setTimeout(() => {
-      //  console.log(SignupForm.errors);
-      //  resetForm();  //rest form after submission
-      // }, 5000);
-
-      console.log(values);
       axios.post(`${process.env.NEXT_PUBLIC_API_URL}/vendor/add`, values)
-        .then((result) => {
-          toast.success('user registered Successfully');
-          router.push('/vendor-login');
+        .then(() => {
+          toast.success('User registered successfully!');
           resetForm();
+          router.push('/vendor-login');
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           setSubmitting(false);
           toast.error('Error registering user');
         });
-
-      //send the value to the backend
-
-    },
-    validationSchema: SignupSchema
-
-
-
+    }
   });
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-gray-800 to-gray-900 py-10">
-      <div className="w-full max-w-lg bg-white border border-gray-200 rounded-3xl shadow-2xl dark:bg-neutral-900 dark:border-neutral-700 p-8 sm:p-10">
-        <div className="text-center mb-8">
-          <h1
-            className="text-4xl font-extrabold bg-gradient-to-r from-[#F97316] via-[#10B981] to-[#1A2E40] bg-clip-text text-transparent animate-gradient"
-            style={{
-              backgroundSize: '200% 200%',
-              animation: 'gradientMove 3s linear infinite'
-            }}
-          >
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br bg-white p-10">
+      <div className="w-full max-w-md p-8 sm:p-10 bg-white-900 rounded-3xl shadow-xl border border-gray-700 space-y-6">
+        
+        <div className="text-center">
+          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 bg-clip-text text-transparent">
             Vendor Signup
           </h1>
-          <style jsx>{`
-            @keyframes gradientMove {
-              0% {
-                background-position: 0% 50%;
-              }
-              50% {
-                background-position: 100% 50%;
-              }
-              100% {
-                background-position: 0% 50%;
-              }
-            }
-            .animate-gradient {
-              background-size: 200% 200%;
-              animation: gradientMove 3s linear infinite;
-            }
-          `}</style>
-          <p className="mt-2 text-sm text-[#10B981]">
+          <p className="mt-2 text-sm text-gray-400">
             Already have an account?{' '}
-            <a
-              className="text-[#F97316] hover:underline font-medium"
-              href="/vendor-login"
-            >
-              Login here
-            </a>
+            <a href="/vendor-login" className="text-blue-500 hover:underline font-medium">Login here</a>
           </p>
         </div>
 
-        <div className="mt-5">
-          <button type="button" className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
-            <svg className="w-4 h-auto" width="46" height="47" viewBox="0 0 46 47" fill="none">
-              <path d="M46 24.0287C46 22.09 45.8533 20.68 45.5013 19.2112H23.4694V27.9356H36.4069C36.1429 30.1094 34.7347 33.37 31.5957 35.5731L31.5663 35.8669L38.5191 41.2719L38.9885 41.3306C43.4477 37.2181 46 31.1669 46 24.0287Z" fill="#4285F4" />
-              <path d="M23.4694 47C29.8061 47 35.1161 44.9144 39.0179 41.3012L31.625 35.5437C29.6301 36.9244 26.9898 37.8937 23.4987 37.8937C17.2793 37.8937 12.0281 33.7812 10.1505 28.1412L9.88649 28.1706L2.61097 33.7812L2.52296 34.0456C6.36608 41.7125 14.287 47 23.4694 47Z" fill="#34A853" />
-              <path d="M10.1212 28.1413C9.62245 26.6725 9.32908 25.1156 9.32908 23.5C9.32908 21.8844 9.62245 20.3275 10.0918 18.8588V18.5356L2.75765 12.8369L2.52296 12.9544C0.909439 16.1269 0 19.7106 0 23.5C0 27.2894 0.909439 30.8731 2.49362 34.0456L10.1212 28.1413Z" fill="#FBBC05" />
-              <path d="M23.4694 9.07688C27.8699 9.07688 30.8622 10.9863 32.5344 12.5725L39.1645 6.11C35.0867 2.32063 29.8061 0 23.4694 0C14.287 0 6.36607 5.2875 2.49362 12.9544L10.0918 18.8588C11.9987 13.1894 17.25 9.07688 23.4694 9.07688Z" fill="#EB4335" />
-            </svg>
-            Sign up with Google
+        <form onSubmit={formik.handleSubmit} className="space-y-5">
+
+          {/* Name */}
+          <div>
+            <label className="block text-sm font-medium text-black  -300 mb-1">Name</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter your name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              className="w-full px-4 py-3 rounded-sm bg-white-400 text-black   border border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+            />
+            {formik.touched.name && formik.errors.name && (
+              <p className="text-xs text-red-500 mt-1">{formik.errors.name}</p>
+            )}
+          </div>
+
+          {/* Email */}
+          <div>
+            <label className="block text-sm font-medium text-black-300 mb-1">Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="email@example.com"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              className="w-full px-4 py-3 rounded-xl bg-white-800 text-black border border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+            />
+            {formik.touched.email && formik.errors.email && (
+              <p className="text-xs text-red-500 mt-1">{formik.errors.email}</p>
+            )}
+          </div>
+
+          {/* Password */}
+          <div className="relative">
+            <label className="block text-sm font-medium text-black-300 mb-1">Password</label>
+            <input
+              type={passwordHidden ? 'password' : 'text'}
+              name="password"
+              placeholder="••••••••"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              className="w-full px-4 py-3 rounded-xl bg-white-800 text-black border border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+            />
+            <span
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
+              onClick={() => setPasswordHidden(!passwordHidden)}
+            >
+              {passwordHidden ? <FaEye /> : <FaEyeSlash />}
+            </span>
+            {formik.touched.password && formik.errors.password && (
+              <p className="text-xs text-red-500 mt-1">{formik.errors.password}</p>
+            )}
+          </div>
+
+          {/* Confirm Password */}
+          <div>
+            <label className="block text-sm font-medium text-black-300 mb-1">Confirm Password</label>
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="••••••••"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              className="w-full px-4 py-3 rounded-xl bg-white-800 text-black border border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+            />
+            {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+              <p className="text-xs text-red-500 mt-1">{formik.errors.confirmPassword}</p>
+            )}
+          </div>
+
+          {/* Terms */}
+          <div className="flex items-center text-gray-300">
+            <input type="checkbox" id="terms" className="w-4 h-4 text-purple-500 rounded focus:ring-purple-500" />
+            <label htmlFor="terms" className="ml-2 text-sm">
+              I accept the <a href="#" className="text-blue-500 hover:underline">Terms and Conditions</a>
+            </label>
+          </div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            disabled={formik.isSubmitting}
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 text-white font-semibold text-lg flex justify-center items-center gap-x-2 transition"
+          >
+            {formik.isSubmitting ? <Ring size="30" stroke="5" color="white" speed="2" /> : 'Sign Up'}
           </button>
-
-          <div className="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600">Or</div>
-
-          {/* Form */}
-          <form onSubmit={SignupForm.handleSubmit}>
-
-
-            <div className="grid gap-y-4">
-              {/* Form Group */}
-              <div >
-                <label htmlFor="name" className="block text-sm mb-2 dark:text-white font-bold">Name</label>
-                <div className="relative border border-[#4B5563] rounded-lg p-1">
-                  <input type="text"
-                    id="name"
-                    onChange={SignupForm.handleChange}
-                    value={SignupForm.values.name}
-                    className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" aria-describedby="email-error" />
-                  <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
-                    <svg className="size-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                    </svg>
-                  </div>
-                </div>
-                {
-                  (SignupForm.errors.name && SignupForm.touched.name) && (
-                    <p className=" text-xs text-red-600 mt-2" id="email-error">{SignupForm.errors.name}</p>
-
-                  )
-                }
-              </div>
-              <div >
-                <label htmlFor="email" className="block text-sm mb-2 dark:text-white font-bold">Email address</label>
-                <div className="relative border border-[#4B5563] rounded-lg p-1">
-                  <input type="email" id="email" onChange={SignupForm.handleChange}
-                    value={SignupForm.values.email} className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" aria-describedby="email-error" />
-                  <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
-                    <svg className="size-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                    </svg>
-                  </div>
-                </div>
-                {
-                  (SignupForm.errors.email && SignupForm.touched.email) && (
-                    <p className=" text-xs text-red-600 mt-2" id="email-error">{SignupForm.errors.email}</p>
-
-                  )
-                }
-              </div>
-              {/* End Form Group */}
-
-              {/* Form Group */}
-              <div>
-                <label htmlFor="password" className="block text-sm mb-2 dark:text-white font-bold">Password</label>
-                <div className="relative border border-[#4B5563] rounded-lg p-1">
-                  <input
-                    type={passwordHidden ? 'password' : 'text'}
-                    id="password"
-                    onChange={SignupForm.handleChange} value={SignupForm.values.password} className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" aria-describedby="password-error" />
-                  
-                </div>
-                {
-                  (SignupForm.errors.password && SignupForm.touched.password) && (
-                    <p className=" text-xs text-red-600 mt-2" id="email-error">{SignupForm.errors.password}</p>
-
-                  )
-                }
-              </div>
-              {/* End Form Group */}
-
-              {/* Form Group */}
-              <div>
-                <label htmlFor="confirm-password" className="block text-sm mb-2 dark:text-white font-bold">Confirm Password</label>
-                <div className="relative border border-[#4B5563] rounded-lg p-1">
-                  <input type="password" id="confirmPassword" onChange={SignupForm.handleChange} value={SignupForm.values.confirmPassword} className="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" aria-describedby="confirm-password-error" />
-                  <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
-                    <svg className="size-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                    </svg>
-                  </div>
-                </div>
-                {
-                  (SignupForm.errors.confirmPassword && SignupForm.touched.confirmPassword) && (
-                    <p className=" text-xs text-red-600 mt-2" id="email-error">{SignupForm.errors.confirmPassword}</p>
-
-                  )
-                }
-              </div>
-              {/* End Form Group */}
-
-              {/* Checkbox */}
-              <div className="flex items-center">
-                <div className="flex">
-                  <input id="remember-me" name="remember-me" type="checkbox" className="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" />
-                </div>
-                <div className="ms-3">
-                  <label htmlFor="remember-me" className="text-sm dark:text-white">I accept the <a className="text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium dark:text-blue-500" href="#">Terms and Conditions</a></label>
-                </div>
-              </div>
-              {/* End Checkbox */}
-
-              <button disabled={SignupForm.isSubmitting} type="submit" className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                {
-                  SignupForm.isSubmitting ? (
-                    <Ring
-                      size="30"
-                      stroke="5"
-                      bgOpacity="0"
-                      speed="2"
-                      color="black"
-                    />
-                  ) : (
-                    'sign up'
-                  )
-                }
-              </button>
-            </div>
-          </form>
-          {/* End Form */}
-        </div>
+        </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default vendorsignup;
+export default VendorSignup;

@@ -93,31 +93,31 @@ const ManageScrapRequests = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-screen bg-white">
         <FaSpinner className="animate-spin text-4xl text-blue-500" />
       </div>
     );
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 bg-gray-50 dark:bg-neutral-950 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+    <div className="min-h-screen bg-white px-4 sm:px-8 py-10">
+      <h1 className="text-3xl font-bold text-center text-blue-700 mb-10">
         Manage Scrap Requests
       </h1>
 
-      {/* New Scrap Request Form */}
+      {/* Add New Request Form */}
       <motion.form
         onSubmit={handleAddRequest}
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-neutral-800 p-5 rounded-xl shadow-md mb-8 flex flex-col sm:flex-row gap-4"
+        className="bg-white border border-gray-200 shadow-md p-6 rounded-2xl mb-10 flex flex-col sm:flex-row gap-4"
       >
         <select
           value={newRequest.car}
           onChange={(e) =>
             setNewRequest({ ...newRequest, car: e.target.value })
           }
-          className="flex-1 border border-gray-300 rounded-lg p-2 dark:bg-neutral-900 dark:text-white"
+          className="flex-1 border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Select Car</option>
           {cars.map((c) => (
@@ -134,13 +134,13 @@ const ManageScrapRequests = () => {
           onChange={(e) =>
             setNewRequest({ ...newRequest, reason: e.target.value })
           }
-          className="flex-1 border border-gray-300 rounded-lg p-2 dark:bg-neutral-900 dark:text-white"
+          className="flex-1 border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500"
         />
 
         <button
           type="submit"
           disabled={submitting}
-          className="flex items-center justify-center gap-2 px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-all duration-200"
         >
           {submitting ? (
             <FaSpinner className="animate-spin text-sm" />
@@ -151,8 +151,8 @@ const ManageScrapRequests = () => {
         </button>
       </motion.form>
 
-      {/* Scrap Request List */}
-      <div className="space-y-5">
+      {/* Request List */}
+      <div className="space-y-6">
         {requests.length > 0 ? (
           requests.map((req, index) => (
             <motion.div
@@ -161,25 +161,25 @@ const ManageScrapRequests = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white dark:bg-neutral-800 p-5 rounded-xl shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+              className="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col sm:flex-row justify-between items-center gap-4"
             >
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 w-full sm:w-auto">
                 <img
                   src={req.car?.image || "https://via.placeholder.com/150"}
                   alt="Car"
-                  className="w-24 h-16 object-cover rounded-lg"
+                  className="w-28 h-20 object-cover rounded-lg border border-gray-200"
                 />
                 <div>
-                  <p className="font-bold text-lg text-gray-800 dark:text-white">
+                  <p className="font-semibold text-lg text-gray-800">
                     {req.car?.brand} {req.car?.model} ({req.car?.year})
                   </p>
-                  <p className="text-sm text-gray-600 dark:text-neutral-300 mt-1">
+                  <p className="text-sm text-gray-600 mt-1">
                     Reason: {req.reason || "Not specified"}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 self-end sm:self-center">
+              <div className="flex items-center gap-3">
                 {req.status === "Pending" ? (
                   <>
                     <button
@@ -187,44 +187,41 @@ const ManageScrapRequests = () => {
                       className="w-10 h-10 flex items-center justify-center bg-green-100 text-green-600 rounded-full hover:bg-green-200 transition"
                       title="Approve"
                     >
-                      <FaCheck className="text-base" />
+                      <FaCheck />
                     </button>
                     <button
                       onClick={() => handleUpdateRequest(req._id, "Rejected")}
                       className="w-10 h-10 flex items-center justify-center bg-red-100 text-red-600 rounded-full hover:bg-red-200 transition"
                       title="Reject"
                     >
-                      <FaTimes className="text-base" />
+                      <FaTimes />
                     </button>
                   </>
                 ) : (
                   <span
                     className={`px-4 py-1.5 rounded-full text-sm font-semibold ${
                       req.status === "Approved"
-                        ? "bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300"
-                        : "bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
                     }`}
                   >
                     {req.status}
                   </span>
                 )}
 
-                {/* Delete Button */}
                 <button
                   onClick={() => handleDeleteRequest(req._id)}
-                  className="w-10 h-10 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 dark:bg-neutral-700 dark:text-gray-300 dark:hover:bg-neutral-600 transition"
+                  className="w-10 h-10 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition"
                   title="Delete Request"
                 >
-                  <FaTrash className="text-sm" />
+                  <FaTrash />
                 </button>
               </div>
             </motion.div>
           ))
         ) : (
-          <div className="text-center py-16">
-            <p className="text-gray-500 dark:text-neutral-400">
-              You have no scrap requests yet.
-            </p>
+          <div className="text-center py-20 text-gray-500 text-lg">
+            You have no scrap requests yet.
           </div>
         )}
       </div>
@@ -233,3 +230,4 @@ const ManageScrapRequests = () => {
 };
 
 export default ManageScrapRequests;
+

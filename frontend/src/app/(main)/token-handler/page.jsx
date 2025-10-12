@@ -27,7 +27,7 @@ const GoogleAuthCallback = () => {
         } else {
             // Store the token and user data in local storage or a state management system
             // For this example, we will use local storage
-            !ISSERVER &&  localStorage.setItem('authToken', token);
+            !ISSERVER &&  localStorage.setItem('user', token);
             // setLoggedIn(true);
             // localStorage.setItem('user', user); // Note: You might want to parse this if it's a JSON string
 

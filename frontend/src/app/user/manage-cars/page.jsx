@@ -3,7 +3,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import { FaSpinner, FaTrash, FaEdit, FaSave, FaTimes } from "react-icons/fa";
+import {
+  FaSpinner,
+  FaTrash,
+  FaEdit,
+  FaSave,
+  FaTimes,
+  FaCarSide,
+} from "react-icons/fa";
 
 const ManageCars = () => {
   const [cars, setCars] = useState([]);
@@ -19,8 +26,6 @@ const ManageCars = () => {
       const res = await axios.get("http://localhost:5000/car/user", {
         headers: { Authorization: `Bearer ${user.token}` },
       });
-      console.log(res.data);
-      
       setCars(res.data);
     } catch {
       toast.error("Failed to fetch cars.");
@@ -77,19 +82,27 @@ const ManageCars = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-screen bg-[#F9FAFB]">
         <FaSpinner className="animate-spin text-4xl text-blue-500" />
       </div>
     );
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 bg-gray-50 dark:bg-neutral-950 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-        Manage Cars
-      </h1>
+    <div className="min-h-screen bg-[#F9FAFB] px-4 sm:px-8 py-12">
+      {/* Header */}
+      <div className="flex flex-col items-center mb-10">
+        <FaCarSide className="text-blue-600 text-5xl mb-3" />
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 text-center">
+          Manage Your Cars
+        </h1>
+        <p className="text-gray-500 text-sm mt-1 text-center">
+          View, edit, or delete your added vehicles easily.
+        </p>
+      </div>
 
-      <div className="space-y-5">
+      {/* Cars List */}
+      <div className="max-w-5xl mx-auto space-y-6">
         {cars.length > 0 ? (
           cars.map((car, index) => (
             <motion.div
@@ -98,13 +111,14 @@ const ManageCars = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
-              className="bg-white dark:bg-neutral-800 p-5 rounded-xl shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+              className="bg-white border border-gray-200 shadow-sm hover:shadow-md transition rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
             >
-              <div className="flex items-center gap-4 flex-1">
+              {/* Car Image + Info */}
+              <div className="flex items-center gap-5 flex-1 w-full">
                 <img
                   src={car.image || "https://via.placeholder.com/150"}
                   alt="Car"
-                  className="w-24 h-16 object-cover rounded-lg"
+                  className="w-28 h-20 object-cover rounded-lg border border-gray-200"
                 />
                 {editingCar === car._id ? (
                   <div className="grid grid-cols-2 gap-2 w-full">
@@ -114,7 +128,8 @@ const ManageCars = () => {
                       onChange={(e) =>
                         setEditData({ ...editData, brand: e.target.value })
                       }
-                      className="border border-gray-300 rounded-lg p-2 dark:bg-neutral-900 dark:text-white"
+                      placeholder="Brand"
+                      className="border border-gray-300 rounded-lg p-2"
                     />
                     <input
                       type="text"
@@ -122,7 +137,8 @@ const ManageCars = () => {
                       onChange={(e) =>
                         setEditData({ ...editData, model: e.target.value })
                       }
-                      className="border border-gray-300 rounded-lg p-2 dark:bg-neutral-900 dark:text-white"
+                      placeholder="Model"
+                      className="border border-gray-300 rounded-lg p-2"
                     />
                     <input
                       type="text"
@@ -133,7 +149,8 @@ const ManageCars = () => {
                           chassisNumber: e.target.value,
                         })
                       }
-                      className="border border-gray-300 rounded-lg p-2 dark:bg-neutral-900 dark:text-white"
+                      placeholder="Chassis No"
+                      className="border border-gray-300 rounded-lg p-2"
                     />
                     <input
                       type="text"
@@ -141,7 +158,8 @@ const ManageCars = () => {
                       onChange={(e) =>
                         setEditData({ ...editData, regNumber: e.target.value })
                       }
-                      className="border border-gray-300 rounded-lg p-2 dark:bg-neutral-900 dark:text-white"
+                      placeholder="Reg No"
+                      className="border border-gray-300 rounded-lg p-2"
                     />
                     <input
                       type="number"
@@ -149,7 +167,8 @@ const ManageCars = () => {
                       onChange={(e) =>
                         setEditData({ ...editData, year: e.target.value })
                       }
-                      className="border border-gray-300 rounded-lg p-2 dark:bg-neutral-900 dark:text-white"
+                      placeholder="Year"
+                      className="border border-gray-300 rounded-lg p-2"
                     />
                     <input
                       type="text"
@@ -157,25 +176,29 @@ const ManageCars = () => {
                       onChange={(e) =>
                         setEditData({ ...editData, image: e.target.value })
                       }
-                      className="border border-gray-300 rounded-lg p-2 dark:bg-neutral-900 dark:text-white col-span-2"
+                      placeholder="Image URL"
+                      className="border border-gray-300 rounded-lg p-2 col-span-2"
                     />
                   </div>
                 ) : (
                   <div>
-                    <p className="font-bold text-lg text-gray-800 dark:text-white">
+                    <p className="font-semibold text-lg text-gray-800">
                       {car.brand} {car.model} ({car.year})
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-neutral-400">
-                      Chassis: {car.chassisNumber}
+                    <p className="text-sm text-gray-500">
+                      <span className="font-medium text-gray-700">Chassis:</span>{" "}
+                      {car.chassisNumber}
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-neutral-400">
-                      Reg: {car.regNumber}
+                    <p className="text-sm text-gray-500">
+                      <span className="font-medium text-gray-700">Reg:</span>{" "}
+                      {car.regNumber}
                     </p>
                   </div>
                 )}
               </div>
 
-              <div className="flex items-center gap-3 self-end sm:self-center">
+              {/* Buttons */}
+              <div className="flex items-center gap-2 self-end sm:self-center">
                 {editingCar === car._id ? (
                   <>
                     <button
@@ -202,7 +225,7 @@ const ManageCars = () => {
                   <>
                     <button
                       onClick={() => handleEdit(car)}
-                      className="flex items-center justify-center w-10 h-10 bg-yellow-100 text-yellow-600 rounded-full hover:bg-yellow-200 transition"
+                      className="flex items-center justify-center w-10 h-10 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition"
                       title="Edit"
                     >
                       <FaEdit />
@@ -220,9 +243,10 @@ const ManageCars = () => {
             </motion.div>
           ))
         ) : (
-          <div className="text-center py-16">
-            <p className="text-gray-500 dark:text-neutral-400">
-              You have no cars to manage.
+          <div className="text-center py-20 bg-white rounded-xl shadow-sm border border-gray-200">
+            <p className="text-gray-600">🚗 You have no cars added yet.</p>
+            <p className="text-sm text-gray-400 mt-2">
+              Add a car to start managing your collection.
             </p>
           </div>
         )}
@@ -232,3 +256,4 @@ const ManageCars = () => {
 };
 
 export default ManageCars;
+

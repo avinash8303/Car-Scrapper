@@ -1,13 +1,15 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-
+import { motion } from 'framer-motion';
+import { FaCarSide, FaUpload } from 'react-icons/fa';
 
 const AddCar = () => {
-  // Validation schema using Yup
+  const [preview, setPreview] = useState(null);
+
   const AddCarSchema = Yup.object().shape({
     brand: Yup.string().required('Brand is required'),
     model: Yup.string().required('Model is required'),
@@ -19,11 +21,9 @@ const AddCar = () => {
       .required('Year is required')
       .min(1900, 'Year must be after 1900')
       .max(new Date().getFullYear(), 'Year cannot be in the future'),
-    image: Yup.mixed()
-      .required('Image is required')
+    image: Yup.mixed().required('Image is required'),
   });
 
-  // Formik initialization
   const formik = useFormik({
     initialValues: {
       brand: '',
@@ -36,16 +36,15 @@ const AddCar = () => {
     validationSchema: AddCarSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
-        // 1. Upload image to Cloudinary
         const imageData = new FormData();
         imageData.append('file', values.image);
-        imageData.append('upload_preset', 'CarScrapper'); // Replace with your Cloudinary upload preset
-        imageData.append('cloud_name', 'dtpfnjtva'); // Replace with your Cloudinary cloud name
+        imageData.append('upload_preset', 'CarScrapper');
+        imageData.append('cloud_name', 'dtpfnjtva');
 
-        const cloudinaryRes = await fetch('https://api.cloudinary.com/v1_1/dtpfnjtva/image/upload', {
-          method: 'POST',
-          body: imageData
-        });
+        const cloudinaryRes = await fetch(
+          'https://api.cloudinary.com/v1_1/dtpfnjtva/image/upload',
+          { method: 'POST', body: imageData }
+        );
         const cloudinaryData = await cloudinaryRes.json();
         if (!cloudinaryData.secure_url) throw new Error('Image upload failed');
         // Log success if image is uploaded
@@ -58,179 +57,169 @@ const AddCar = () => {
           chassisNumber: values.chassisNumber,
           regNumber: values.regNumber,
           year: values.year,
-          image: cloudinaryData.secure_url
+          image: cloudinaryData.secure_url,
         };
+
         await axios.post('http://localhost:5000/car/add', carData, {
           headers: {
-            authorization: `Bearer ${localStorage.getItem('token')}` // Or however you manage auth
-          }
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
         });
-        toast.success('Car added successfully');
+
+        toast.success('🚗 Car added successfully!');
         resetForm();
+        setPreview(null);
       } catch (err) {
-        toast.error('Error adding car');
+        toast.error('❌ Error adding car');
       }
-    }
+    },
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-800 via-gray-900 to-black py-10">
-      <div className="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-        <div className="bg-white rounded-xl shadow-xs p-4 sm:p-7 dark:bg-neutral-900">
-          <form onSubmit={formik.handleSubmit}>
-            {/* Section: Car Details */}
-            <div className="grid sm:grid-cols-12 gap-2 sm:gap-4 py-8 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-neutral-700 dark:first:border-transparent">
-              <div className="sm:col-span-12">
-                <h2 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
-                  Add Car Details
-                </h2>
-              </div>
+    <div className="min-h-screen flex items-center justify-center bg-[#F9FAFB] px-4 py-16">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-gray-200 p-8"
+      >
+        {/* Header */}
+        <div className="flex flex-col items-center mb-8">
+          <FaCarSide className="text-5xl text-blue-600 mb-3" />
+          <h2 className="text-3xl font-bold text-gray-800 text-center">Add New Car</h2>
+          <p className="text-gray-500 text-sm mt-1">
+            Enter the car details and upload an image.
+          </p>
+        </div>
 
-              {/* Brand */}
-              <div className="sm:col-span-3">
-                <label htmlFor="brand" className="inline-block text-sm font-medium text-gray-500 mt-2.5 dark:text-neutral-500">
-                  Brand
-                </label>
-              </div>
-              <div className="sm:col-span-9">
-                <input
-                  id="brand"
-                  name="brand"
-                  type="text"
-                  placeholder="Enter car brand"
-                  className="py-1.5 sm:py-2 px-3 block w-full border-gray-200 shadow-2xs rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                  value={formik.values.brand}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.touched.brand && formik.errors.brand && (
-                  <p className="text-xs text-red-600 mt-1">{formik.errors.brand}</p>
-                )}
-              </div>
+        {/* Form */}
+        <form onSubmit={formik.handleSubmit} className="space-y-6">
+          {/* Brand */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Brand</label>
+            <input
+              type="text"
+              id="brand"
+              name="brand"
+              placeholder="e.g., Toyota"
+              className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"
+              {...formik.getFieldProps('brand')}
+            />
+            {formik.touched.brand && formik.errors.brand && (
+              <p className="text-red-500 text-xs mt-1">{formik.errors.brand}</p>
+            )}
+          </div>
 
-              {/* Model */}
-              <div className="sm:col-span-3">
-                <label htmlFor="model" className="inline-block text-sm font-medium text-gray-500 mt-2.5 dark:text-neutral-500">
-                  Model
-                </label>
-              </div>
-              <div className="sm:col-span-9">
-                <input
-                  id="model"
-                  name="model"
-                  type="text"
-                  placeholder="Enter car model"
-                  className="py-1.5 sm:py-2 px-3 block w-full border-gray-200 shadow-2xs rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                  value={formik.values.model}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.touched.model && formik.errors.model && (
-                  <p className="text-xs text-red-600 mt-1">{formik.errors.model}</p>
-                )}
-              </div>
+          {/* Model */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Model</label>
+            <input
+              type="text"
+              id="model"
+              name="model"
+              placeholder="e.g., Fortuner"
+              className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"
+              {...formik.getFieldProps('model')}
+            />
+            {formik.touched.model && formik.errors.model && (
+              <p className="text-red-500 text-xs mt-1">{formik.errors.model}</p>
+            )}
+          </div>
 
-              {/* Chassis Number */}
-              <div className="sm:col-span-3">
-                <label htmlFor="chassisNumber" className="inline-block text-sm font-medium text-gray-500 mt-2.5 dark:text-neutral-500">
-                  Chassis Number
-                </label>
-              </div>
-              <div className="sm:col-span-9">
-                <input
-                  id="chassisNumber"
-                  name="chassisNumber"
-                  type="text"
-                  placeholder="Enter chassis number"
-                  className="py-1.5 sm:py-2 px-3 block w-full border-gray-200 shadow-2xs rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                  value={formik.values.chassisNumber}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.touched.chassisNumber && formik.errors.chassisNumber && (
-                  <p className="text-xs text-red-600 mt-1">{formik.errors.chassisNumber}</p>
-                )}
-              </div>
+          {/* Chassis Number */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Chassis Number</label>
+            <input
+              type="text"
+              id="chassisNumber"
+              name="chassisNumber"
+              placeholder="Enter chassis number"
+              className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"
+              {...formik.getFieldProps('chassisNumber')}
+            />
+            {formik.touched.chassisNumber && formik.errors.chassisNumber && (
+              <p className="text-red-500 text-xs mt-1">{formik.errors.chassisNumber}</p>
+            )}
+          </div>
 
-              {/* Registration Number */}
-              <div className="sm:col-span-3">
-                <label htmlFor="regNumber" className="inline-block text-sm font-medium text-gray-500 mt-2.5 dark:text-neutral-500">
-                  Registration Number
-                </label>
-              </div>
-              <div className="sm:col-span-9">
-                <input
-                  id="regNumber"
-                  name="regNumber"
-                  type="text"
-                  placeholder="Enter registration number (default: unknown)"
-                  className="py-1.5 sm:py-2 px-3 block w-full border-gray-200 shadow-2xs rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                  value={formik.values.regNumber}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-              </div>
+          {/* Registration Number */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Registration Number</label>
+            <input
+              type="text"
+              id="regNumber"
+              name="regNumber"
+              placeholder="e.g., DL03AB1234"
+              className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"
+              {...formik.getFieldProps('regNumber')}
+            />
+          </div>
 
-              {/* Year */}
-              <div className="sm:col-span-3">
-                <label htmlFor="year" className="inline-block text-sm font-medium text-gray-500 mt-2.5 dark:text-neutral-500">
-                  Year
-                </label>
-              </div>
-              <div className="sm:col-span-9">
-                <input
-                  id="year"
-                  name="year"
-                  type="number"
-                  placeholder="Enter manufacturing year"
-                  className="py-1.5 sm:py-2 px-3 block w-full border-gray-200 shadow-2xs rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                  value={formik.values.year}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.touched.year && formik.errors.year && (
-                  <p className="text-xs text-red-600 mt-1">{formik.errors.year}</p>
-                )}
-              </div>
-            </div>
+          {/* Year */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Year</label>
+            <input
+              type="number"
+              id="year"
+              name="year"
+              placeholder="e.g., 2020"
+              className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"
+              {...formik.getFieldProps('year')}
+            />
+            {formik.touched.year && formik.errors.year && (
+              <p className="text-red-500 text-xs mt-1">{formik.errors.year}</p>
+            )}
+          </div>
 
-            {/* Image */}
-            <div className="sm:col-span-3">
-              <label htmlFor="image" className="inline-block text-sm font-medium text-gray-500 mt-2.5 dark:text-neutral-500">
-                Image
-              </label>
-            </div>
-            <div className="sm:col-span-9">
+          {/* Image Upload */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Upload Car Image</label>
+            <div className="relative w-full border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-all bg-gray-50">
               <input
                 id="image"
                 name="image"
                 type="file"
                 accept="image/*"
-                className="py-1.5 sm:py-2 px-3 block w-full border-gray-200 shadow-2xs rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                onChange={event => {
-                  formik.setFieldValue('image', event.currentTarget.files[0]);
+                className="absolute inset-0 opacity-0 cursor-pointer"
+                onChange={(event) => {
+                  const file = event.currentTarget.files[0];
+                  formik.setFieldValue('image', file);
+                  if (file) setPreview(URL.createObjectURL(file));
                 }}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.image && formik.errors.image && (
-                <p className="text-xs text-red-600 mt-1">{formik.errors.image}</p>
-              )}
+              <FaUpload className="text-3xl mx-auto mb-2 text-gray-400" />
+              <p className="text-sm text-gray-500">Click or drag to upload</p>
             </div>
 
-            {/* Submit Button */}
-            <div className="mt-6">
-              <button
-                type="submit"
-                className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-              >
-                Add Car
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+            {preview && (
+              <div className="mt-4 flex justify-center">
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className="rounded-lg shadow-md w-48 h-32 object-cover border border-gray-200"
+                />
+              </div>
+            )}
+
+            {formik.touched.image && formik.errors.image && (
+              <p className="text-red-500 text-xs mt-1">{formik.errors.image}</p>
+            )}
+          </div>
+
+          {/* Submit Button */}
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            type="submit"
+            className="w-full mt-6 bg-blue-600 hover:bg-blue-700 transition-all py-3 rounded-lg font-semibold text-white shadow-md"
+          >
+            Add Car
+          </motion.button>
+        </form>
+      </motion.div>
     </div>
   );
 };
 
 export default AddCar;
+
