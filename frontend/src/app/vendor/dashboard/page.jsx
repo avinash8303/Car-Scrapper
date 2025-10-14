@@ -21,6 +21,8 @@ const StatCard = ({ icon, title, value, color }) => (
 );
 
 const Dashboard = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const [stats, setStats] = useState({
     totalCars: 0,
     scrapRequests: 0,
@@ -76,7 +78,7 @@ const Dashboard = () => {
       case 'Rejected': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
       default: return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
     }
-  };
+  };  
 
   if (loading) {
     return (

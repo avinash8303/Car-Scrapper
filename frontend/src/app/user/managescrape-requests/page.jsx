@@ -5,13 +5,15 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FaCheck, FaTimes, FaSpinner, FaPlus, FaTrash } from "react-icons/fa";
 
+const ISSERVER = typeof window === 'undefined';
+
 const ManageScrapRequests = () => {
   const [requests, setRequests] = useState([]);
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [newRequest, setNewRequest] = useState({ car: "", reason: "" });
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(!ISSERVER && localStorage.getItem("user"));
 
   const fetchRequests = async () => {
     setLoading(true);

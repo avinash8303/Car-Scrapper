@@ -5,10 +5,12 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FaCheck, FaTimes, FaSpinner } from "react-icons/fa";
 
+const ISSERVER = typeof window === 'undefined';
+
 const VendorScrapRequests = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
-  const user = JSON.parse(localStorage.getItem("user")); // vendor data
+  const user = JSON.parse(!ISSERVER && localStorage.getItem("user")); // vendor data
 
   // ✅ Fetch all scrap requests (from all users)
   const fetchRequests = async () => {

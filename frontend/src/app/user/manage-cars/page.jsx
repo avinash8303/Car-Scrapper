@@ -18,7 +18,9 @@ const ManageCars = () => {
   const [submitting, setSubmitting] = useState(false);
   const [editingCar, setEditingCar] = useState(null);
   const [editData, setEditData] = useState({});
-  const user = JSON.parse(localStorage.getItem("user"));
+
+  const ISSERVER = typeof window === 'undefined';
+  const user = JSON.parse(!ISSERVER && localStorage.getItem("user"));
 
   const fetchCars = async () => {
     setLoading(true);

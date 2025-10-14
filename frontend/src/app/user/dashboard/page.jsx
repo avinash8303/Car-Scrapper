@@ -43,7 +43,7 @@ const Dashboard = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    
+
     const fetchDashboard = async () => {
       setLoading(true);
       const user = JSON.parse(localStorage.getItem("user"));
@@ -52,12 +52,20 @@ const Dashboard = () => {
         setLoading(false);
         return;
       }
-      
+
       try {
         console.log("try...");
         const [carsRes, requestsRes] = await Promise.all([
-          axios.get(`http://localhost:5000/car/user/${user._id}`),
-          axios.get(`http://localhost:5000/scrap-request/user/${user._id}`),
+          axios.get(`http://localhost:5000/car/user`, {
+            headers: {
+              'Authorization': `Bearer ${user.token}`
+            }
+          }),
+          axios.get(`http://localhost:5000/scrap-request/user`, {
+            headers: {
+              'Authorization': `Bearer ${user.token}`
+            }
+          }),
         ]);
 
 
@@ -235,6 +243,7 @@ const Dashboard = () => {
                   View Profile
                 </span>
               </Link>
+              
             </div>
           </motion.div>
         </div>

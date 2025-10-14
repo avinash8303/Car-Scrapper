@@ -4,10 +4,13 @@ import AdminNavbar from './AdminNavbar';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
+const ISSERVER = typeof window === 'undefined';
+
 const Layout = ({ children }) => {
 
   const router = useRouter();
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(!ISSERVER && localStorage.getItem('user'));
+  
 
   useEffect(() => {
     if (!user || user.role !== 'admin') {
