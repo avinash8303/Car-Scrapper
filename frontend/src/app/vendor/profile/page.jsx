@@ -19,7 +19,7 @@ const Profile = () => {
     }
 
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/user/getuser`, {
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/vendor/getvendor`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -41,7 +41,7 @@ const Profile = () => {
 
   useEffect(() => {
     const storedToken =
-      typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+      typeof window !== 'undefined' ? localStorage.getItem('vendor-token') : null;
     setToken(storedToken);
     if (storedToken) getProfileData(storedToken);
   }, []);

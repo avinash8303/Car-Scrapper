@@ -25,6 +25,12 @@ const Navbar = () => {
                     >
                         Vendor Dashboard 
                     </Link>
+                    <Link
+                        className="font-medium  hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+                        href="/vendor/profile"
+                    >
+                        Vendor Profile
+                    </Link>
                     <a
                         className="font-medium  hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
                         href="/contact"
@@ -52,6 +58,7 @@ const Navbar = () => {
                             >
                                 Vendor Login
                             </a>
+                            
                             <a
                                 href="/vendor-signup"
                                 className="block px-4 py-2 text-gray-700 dark:text-neutral-200 hover:bg-gray-100 dark:hover:bg-neutral-700 rounded-b-lg"
