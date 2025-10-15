@@ -20,8 +20,10 @@ const StatCard = ({ icon, title, value, color }) => (
   </motion.div>
 );
 
+const ISSERVER = typeof window === "undefined";
+
 const Dashboard = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(!ISSERVER && localStorage.getItem("user"));
 
   const [stats, setStats] = useState({
     totalCars: 0,
